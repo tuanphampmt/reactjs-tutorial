@@ -3,8 +3,9 @@ import "./App.css";
 import Control from "./components/Control";
 import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
-import { v4 as uuidv4 } from "uuid";
 import * as constants from "./constants/index";
+import { v4 as uuidv4 } from "uuid";
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -28,18 +29,24 @@ class App extends Component {
   };
 
   getStatusRemoveFrom = (isDisplayForm) => {
-        this.setState({ isDisplayForm: isDisplayForm });
-  }
+    this.setState({ isDisplayForm: isDisplayForm });
+  };
 
   getInfoTasks = (task) => {
-        const {tasks} = this.state;
+    const { tasks } = this.state;
 
-        tasks.push(task)
-        this.setState({ tasks: tasks });
+    tasks.push(task);
+    this.setState({ tasks: tasks });
 
-        localStorage.setItem(constants.DATA_TASK_LIST, JSON.stringify(tasks))
-  }
+    localStorage.setItem(constants.DATA_TASK_LIST, JSON.stringify(tasks));
+  };
+  findByIdAndRemoveTask = (id) => {
+    const tasks = this.state.tasks.filter((task) => task.id !== id);
 
+    this.setState({ tasks: tasks });
+
+    localStorage.setItem(constants.DATA_TASK_LIST, JSON.stringify(tasks));
+  };
   render() {
     return (
       <div>
@@ -50,10 +57,14 @@ class App extends Component {
           </div>
           <div className="row">
             <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-              {this.state.isDisplayForm && <TaskForm 
-              getStatusRemoveFrom={(isDisplayForm) => this.getStatusRemoveFrom(isDisplayForm)}
-              getInfoTasks={(task) => this.getInfoTasks(task)}
-              />}
+              {this.state.isDisplayForm && (
+                <TaskForm
+                  getStatusRemoveFrom={(isDisplayForm) =>
+                    this.getStatusRemoveFrom(isDisplayForm)
+                  }
+                  getInfoTasks={(task) => this.getInfoTasks(task)}
+                />
+              )}
               {/* <TaskForm /> */}
             </div>
             <div
@@ -76,6 +87,9 @@ class App extends Component {
                   <TaskList
                     tasks={this.state.tasks}
                     isDisplayForm={this.state.isDisplayForm}
+                    findByIdAndRemoveTask={(id) =>
+                      this.findByIdAndRemoveTask(id)
+                    }
                   />
                 </div>
               </div>

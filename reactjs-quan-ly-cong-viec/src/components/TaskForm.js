@@ -1,16 +1,20 @@
 import React, { Component } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 class TaskForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       name: "",
-      status: 0,
+      status: true,
     };
   }
   onChange = (e) => {
     const name = e.target.name;
-    const value = e.target.type === "select-one" ? +e.target.value : e.target.value;
+    const value =
+      e.target.type === "select-one"
+        ? e.target.value === "true"
+        : e.target.value;
 
     this.setState({ [name]: value });
   };
@@ -21,8 +25,16 @@ class TaskForm extends Component {
 
   onHandleSubmit = (e) => {
     e.preventDefault();
-    this.props.getInfoTasks(this.state);
+
+    const task = {
+      id: uuidv4(),
+      name: this.state.name,
+      status: this.state.status,
+    };
+
+    this.props.getInfoTasks(task);
   };
+
   resetForm = (e) => {
     e.preventDefault();
     this.setState({ name: "", status: 0 });
@@ -32,7 +44,7 @@ class TaskForm extends Component {
       <div className="panel panel-warning">
         <div className="panel-heading">
           <h3 className="panel-title">Thêm Công Việc</h3>
-          <i class="fa fa-window-close" onClick={this.getStatusRemoveFrom}></i>
+          <i className="fa fa-window-close" onClick={this.getStatusRemoveFrom}></i>
         </div>
         <div className="panel-body">
           <form onSubmit={this.onHandleSubmit}>
@@ -44,6 +56,7 @@ class TaskForm extends Component {
                 name="name"
                 value={this.state.name}
                 onChange={this.onChange}
+                required
               />
             </div>
             <label>Trạng Thái :</label>
@@ -54,23 +67,23 @@ class TaskForm extends Component {
               value={this.state.status}
               onChange={this.onChange}
             >
-              <option value={1}>Kích Hoạt</option>
-              <option value={0}>Ẩn</option>
+              <option value={true}>Kích Hoạt</option>
+              <option value={false}>Ẩn</option>
             </select>
             <br />
             <div className="text-center">
               <button
                 type="submit"
-                className="btn btn-warning mr-5 width-permanent-80"
+                className="btn btn-warning mr-5 width-permanent-90"
               >
-                Thêm
+                <i className="fa fa-plus mr-3"></i>Thêm
               </button>
               <button
                 type="submit"
-                className="btn btn-danger width-permanent-80"
+                className="btn btn-danger width-permanent-90"
                 onClick={this.resetForm}
               >
-                Hủy Bỏ
+                <i class="fa fa-times mr-3"></i>Hủy Bỏ
               </button>
             </div>
           </form>

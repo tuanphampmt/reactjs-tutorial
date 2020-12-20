@@ -36,6 +36,7 @@ class TaskList extends Component {
               name={task.name}
               status={task.status}
               isDisplayForm={this.props.isDisplayForm}
+              findByIdAndRemoveTask={(id) => this.props.findByIdAndRemoveTask(id)}
             />
           ))}
         </tbody>

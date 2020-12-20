@@ -54,8 +54,8 @@
   margin-right: 3px;
 }
 
-.width-permanent-80 {
-  width: 80px;
+.width-permanent-90 {
+  width: 90px;
 }
 
 .width-permanent-70 {
@@ -105,6 +105,10 @@
 .label.label-danger,
 .label.label-success {
   cursor: pointer;
+}
+
+button.swal-button.swal-button--confirm.swal-button--danger {
+  width: 94.22px;
 }
 
 @media only screen and (max-width: 991px) {

@@ -1,6 +1,24 @@
 import React, { Component } from "react";
+import swal from "sweetalert";
 
 class TaskItem extends Component {
+
+
+  findByIdAndRemoveTask = async () => {
+    const result = await swal({
+      title: "Are you sure?",
+      text: "Are you sure you really want to delete?",
+      icon: "warning",
+      dangerMode: true,
+      buttons: true,
+    });
+
+    if (result) {
+      swal("Deleted!", "Record deleted successfully!", "success");
+      this.props.findByIdAndRemoveTask(this.props.id);
+    }
+  };
+
   render() {
     return (
       <tr>
@@ -28,7 +46,11 @@ class TaskItem extends Component {
           >
             <span className="fa fa-pencil mr-3"></span>Sửa
           </button>
-          <button type="button" className="btn btn-danger width-permanent-70">
+          <button
+            type="button"
+            className="btn btn-danger width-permanent-70"
+            onClick={this.findByIdAndRemoveTask}
+          >
             <span className="fa fa-trash mr-3"></span>Xóa
           </button>
         </td>
